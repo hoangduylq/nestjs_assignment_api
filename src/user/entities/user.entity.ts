@@ -1,3 +1,4 @@
+import { IsDate, IsDateString } from 'class-validator';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('users')
@@ -17,6 +18,7 @@ export class User {
   @Column()
   password: string;
 
-  @Column()
+  @Column({ type: 'timestamptz' })
+  @IsDate()
   birthday: Date;
 }
