@@ -1,4 +1,4 @@
-import { IsDate, IsDateString } from 'class-validator';
+import { IsDate } from 'class-validator';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('users')
