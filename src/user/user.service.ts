@@ -55,7 +55,10 @@ export class UserService {
       throw new ConflictException('Username Or Email already exists');
     }
     const newUser = this.usersRespository.create(createUserDto);
-    newUser.password = bcrypt.hash(newUser.password);
+    const salt = await bcrypt.genSalt();
+    const hashedPassword = await bcrypt.hash(createUserDto.password, salt);
+
+    newUser.password = hashedPassword;
     return this.usersRespository.save(newUser);
   }
 
