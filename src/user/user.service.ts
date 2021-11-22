@@ -5,19 +5,18 @@ import { User } from './entities/user.entity';
 
 @Injectable()
 export class UserService {
-  usersRepository: any;
   constructor(
     @InjectRepository(User)
-    private readonly Repository: Repository<User>,
+    private readonly _repository: Repository<User>,
   ) {}
 
   getAll(): Promise<User[]> {
-    return this.usersRepository.find();
+    return this._repository.find();
   }
 
   async getOneByID(id: string): Promise<User> {
     try {
-      const user = await this.usersRepository.findOneByID(id);
+      const user = await this._repository.findOne(id);
       return user;
     } catch (err) {
       throw err;
