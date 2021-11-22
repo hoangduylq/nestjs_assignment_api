@@ -13,6 +13,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import {
   ApiBadRequestResponse,
+  ApiBearerAuth,
   ApiCreatedResponse,
   ApiTags,
 } from '@nestjs/swagger';
@@ -32,6 +33,7 @@ export class UserController {
 
   @ApiCreatedResponse({ type: UpdateUserDto })
   @ApiBadRequestResponse()
+  @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
@@ -39,16 +41,21 @@ export class UserController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.userService.deleteUser(id);
   }
 
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
   @Get()
   getAll() {
     return this.userService.getAllUser();
   }
 
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
   @Get(':id')
   getOneByID(@Param('id') id: string) {
     return this.userService.getOneById(id);
