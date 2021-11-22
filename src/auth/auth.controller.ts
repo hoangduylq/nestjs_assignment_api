@@ -6,8 +6,8 @@ import {
   Request,
   UseGuards,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
-import { UsersService } from 'src/users/users.service';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { UserService } from 'src/user/user.service';
 import { AuthService } from './auth.service';
 import { UserLoginDto } from './dto/user-login.dto';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
@@ -18,7 +18,7 @@ import { LocalAuthGuard } from './guards/local-auth.guard';
 export class AuthController {
   constructor(
     private readonly authService: AuthService,
-    private readonly usersService: UsersService,
+    private readonly userService: UserService,
   ) {}
 
   @UseGuards(LocalAuthGuard)
@@ -29,9 +29,10 @@ export class AuthController {
 
   @UseGuards(JwtAuthGuard)
   @Get('profile')
+  @ApiBearerAuth()
   async getProfile(@Request() req) {
     const { username } = req.user;
-    const { password, ...result } = await this.usersService.findOne(username);
+    const { password, ...result } = await this.userService.findOne(username);
     return result;
   }
 }
