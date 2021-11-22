@@ -8,25 +8,19 @@ export class UserService {
   usersRepository: any;
   constructor(
     @InjectRepository(User)
-    private readonly feedPostRepository: Repository<User>,
+    private readonly Repository: Repository<User>,
   ) {}
 
   getAll(): Promise<User[]> {
-    return this.usersRepository.find(); //Select * from user
+    return this.usersRepository.find();
   }
 
-  async getOneByID(id: number): Promise<User> {
+  async getOneByID(id: string): Promise<User> {
     try {
       const user = await this.usersRepository.findOneByID(id);
       return user;
     } catch (err) {
-      // hand error
       throw err;
     }
   }
-  // creaateUser(name: string): Promise<User> {
-  //   const newUser = this.usersRepository.create({ name }); //const newUser = new User(name);
-  //   return this.usersRepository.save(newUser);
-  // }
-  // updateUser(id:name, name:string):
 }

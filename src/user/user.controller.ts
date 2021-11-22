@@ -1,15 +1,18 @@
-import { Controller, Get, Post } from '@nestjs/common';
+import { Controller, Get, Param } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { UserService } from './user.service';
-
+@ApiTags('user')
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Post()
+  @Get()
   getAll() {
     return this.userService.getAll();
   }
-  getOneByID() {
-    return this.userService.getOneByID(1);
+
+  @Get(':id')
+  getOneByID(@Param('id') id: string) {
+    return this.userService.getOneByID('id');
   }
 }
