@@ -13,6 +13,23 @@ export class UserService {
     private usersRespository: Repository<User>,
   ) {}
 
+  private readonly users: any = [
+    {
+      userId: 1,
+      username: 'hoangduy',
+      password: 'hoangduy',
+    },
+    {
+      userId: 2,
+      username: 'hoangduy2',
+      password: 'hoangduy2',
+    },
+  ];
+
+  async findOne(username: string): Promise<any> {
+    return this.users.find((user) => user.username === username);
+  }
+
   async getOneById(id: number): Promise<User> {
     try {
       const user = await this.usersRespository.findOneOrFail(id);
