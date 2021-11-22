@@ -17,6 +17,17 @@ export class UserService {
     return this.usersRespository.find();
   }
 
+  async getAllUser(): Promise<User[]> {
+    const users = await this.usersRespository.find();
+    const resultUsers = [];
+    users.forEach((user) => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { password, ...result } = user;
+      resultUsers.push(result);
+    });
+    return resultUsers;
+  }
+
   async findOne(username: string): Promise<any> {
     const users = await this.getAll();
     return users.find((user) => user.username === username);
@@ -59,7 +70,10 @@ export class UserService {
     const hashedPassword = await bcrypt.hash(createUserDto.password, salt);
 
     newUser.password = hashedPassword;
-    return this.usersRespository.save(newUser);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { password, ...result } = await this.usersRespository.save(newUser);
+
+    return result;
   }
 
   async updateUser(id: string, updateUserDto: UpdateUserDto): Promise<boolean> {

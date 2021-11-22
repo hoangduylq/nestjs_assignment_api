@@ -5,7 +5,6 @@ import {
   Patch,
   Param,
   Delete,
-  ParseIntPipe,
   Get,
   UseGuards,
 } from '@nestjs/common';
@@ -47,7 +46,7 @@ export class UserController {
 
   @Get()
   getAll() {
-    return this.userService.getAll();
+    return this.userService.getAllUser();
   }
 
   @Get(':id')

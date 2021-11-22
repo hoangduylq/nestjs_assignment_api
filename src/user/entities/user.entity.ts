@@ -16,7 +16,7 @@ export class User {
   email: string;
 
   @Column({ nullable: false, type: 'varchar' })
-  password: string;
+  password?: string;
 
   @Column({ nullable: true, type: 'date' })
   @IsDate()
