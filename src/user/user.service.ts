@@ -1,10 +1,9 @@
 import { UpdateUserDto } from './dto/update-user.dto';
 import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './entities/user.entity';
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, UpdateResult } from 'typeorm';
-import { from, Observable } from 'rxjs';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class UserService {
@@ -22,22 +21,45 @@ export class UserService {
     }
   }
 
-  createUser(createUserDto: CreateUserDto): Promise<User> {
+  async findByUserNameOrEmail(
+    params: Partial<{ username: string; email: string }>,
+  ): Promise<User | undefined> {
+    const queryBuilder = this.usersRespository.createQueryBuilder('user');
+
+    if (params.email) {
+      queryBuilder.orWhere('user.email =:email', { email: params.email });
+    }
+
+    if (params.username) {
+      queryBuilder.orWhere('user.username =:username', {
+        username: params.username,
+      });
+    }
+
+    return queryBuilder.getOne();
+  }
+
+  async createUser(createUserDto: CreateUserDto): Promise<User> {
+    const user = await this.findByUserNameOrEmail(createUserDto);
+    if (user) {
+      throw new ConflictException('Username Or Email already exists');
+    }
     const newUser = this.usersRespository.create(createUserDto);
     return this.usersRespository.save(newUser);
   }
 
-  updateUser(
-    id: number,
-    updateUserDto: UpdateUserDto,
-  ): Observable<UpdateResult> {
-    return from(this.usersRespository.update(id, updateUserDto));
+  async updateUser(id: number, updateUserDto: UpdateUserDto): Promise<boolean> {
+    const user = await this.getOneById(id);
+    if (!user) return false;
+    await this.usersRespository.update(id, updateUserDto);
+    return true;
   }
 
-  async deleteUser(id: number): Promise<User> {
+  async deleteUser(id: number): Promise<boolean> {
     const user = await this.getOneById(id);
+    if (!user) return false;
 
     await this.usersRespository.remove(user);
-    return user;
+    return true;
   }
 }

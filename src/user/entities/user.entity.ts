@@ -1,4 +1,4 @@
-import { IsDate, IsDateString } from 'class-validator';
+import { IsDate } from 'class-validator';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('users')
@@ -6,19 +6,19 @@ export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ nullable: true, length: 100 })
   name: string;
 
-  @Column()
+  @Column({ nullable: false, length: 20 })
   username: string;
 
-  @Column()
+  @Column({ nullable: false, length: 100 })
   email: string;
 
-  @Column()
+  @Column({ nullable: false, type: 'varchar' })
   password: string;
 
-  @Column({ type: 'timestamptz' })
+  @Column({ nullable: true, type: 'date' })
   @IsDate()
-  birthday: Date;
+  birthday: string;
 }
