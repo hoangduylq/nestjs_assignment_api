@@ -23,6 +23,7 @@ export class AuthController {
 
   @UseGuards(LocalAuthGuard)
   @Post('login')
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async login(@Request() req, @Body() model: UserLoginDto) {
     return this.authService.login(req.user);
   }
@@ -32,6 +33,7 @@ export class AuthController {
   @ApiBearerAuth()
   async getProfile(@Request() req) {
     const { username } = req.user;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { password, ...result } = await this.userService.findOne(username);
     return result;
   }
