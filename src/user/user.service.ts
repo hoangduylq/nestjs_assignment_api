@@ -3,6 +3,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './entities/user.entity';
 import { ConflictException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import * as bcrypt from 'bcrypt';
 import { Repository } from 'typeorm';
 
 @Injectable()
@@ -54,6 +55,7 @@ export class UserService {
       throw new ConflictException('Username Or Email already exists');
     }
     const newUser = this.usersRespository.create(createUserDto);
+    newUser.password = bcrypt.hash(newUser.password);
     return this.usersRespository.save(newUser);
   }
 
