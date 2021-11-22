@@ -10,11 +10,11 @@ import { Repository } from 'typeorm';
 export class UserService {
   constructor(
     @InjectRepository(User)
-    private usersRespository: Repository<User>,
+    private readonly usersRespository: Repository<User>,
   ) {}
 
-  async getAll(): Promise<User[]> {
-    return await this.usersRespository.find();
+  getAll(): Promise<User[]> {
+    return this.usersRespository.find();
   }
 
   async getAllUser(): Promise<User[]> {
@@ -35,7 +35,7 @@ export class UserService {
 
   async getOneById(id: string): Promise<User> {
     try {
-      const user = await this.usersRespository.findOneOrFail(id);
+      const user = await this.usersRespository.findOne(id);
       return user;
     } catch (error) {
       throw error.message;
