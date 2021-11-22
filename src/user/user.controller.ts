@@ -6,6 +6,7 @@ import {
   Param,
   Delete,
   ParseIntPipe,
+  Get,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -31,15 +32,12 @@ export class UserController {
   @ApiCreatedResponse({ type: UpdateUserDto })
   @ApiBadRequestResponse()
   @Patch(':id')
-  update(
-    @Param('id', ParseIntPipe) id: number,
-    @Body() updateUserDto: UpdateUserDto,
-  ) {
+  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.userService.updateUser(id, updateUserDto);
   }
 
   @Delete(':id')
-  remove(@Param('id', ParseIntPipe) id: number) {
+  remove(@Param('id') id: string) {
     return this.userService.deleteUser(id);
   }
 
@@ -50,6 +48,6 @@ export class UserController {
 
   @Get(':id')
   getOneByID(@Param('id') id: string) {
-    return this.userService.getOneByID('id');
+    return this.userService.getOneById(id);
   }
 }

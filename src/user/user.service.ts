@@ -21,7 +21,7 @@ export class UserService {
     return users.find((user) => user.username === username);
   }
 
-  async getOneById(id: number): Promise<User> {
+  async getOneById(id: string): Promise<User> {
     try {
       const user = await this.usersRespository.findOneOrFail(id);
       return user;
@@ -57,14 +57,14 @@ export class UserService {
     return this.usersRespository.save(newUser);
   }
 
-  async updateUser(id: number, updateUserDto: UpdateUserDto): Promise<boolean> {
+  async updateUser(id: string, updateUserDto: UpdateUserDto): Promise<boolean> {
     const user = await this.getOneById(id);
     if (!user) return false;
     await this.usersRespository.update(id, updateUserDto);
     return true;
   }
 
-  async deleteUser(id: number): Promise<boolean> {
+  async deleteUser(id: string): Promise<boolean> {
     const user = await this.getOneById(id);
     if (!user) return false;
 
