@@ -14,7 +14,9 @@ import { UserModule } from './user/user.module';
 @Module({
   imports: [
     UserModule,
-    ConfigModule.forRoot({ isGlobal: true }),
+    ConfigModule.forRoot({
+      envFilePath: [`environments/.env.${process.env.NODE_ENV}`],
+    }),
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: process.env.POSTGRE_HOST,
