@@ -6,6 +6,7 @@ import {
   GoogleRecaptchaNetwork,
 } from '@nestlab/google-recaptcha';
 import { IncomingMessage } from 'http';
+import { join } from 'path';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
@@ -13,7 +14,6 @@ import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
-    UserModule,
     ConfigModule.forRoot({
       envFilePath: [`environments/.env.${process.env.NODE_ENV}`],
     }),
@@ -23,11 +23,12 @@ import { UserModule } from './user/user.module';
       port: parseInt(<string>process.env.POSTGRE_PORT),
       username: process.env.POSTGRES_USER,
       password: <string>process.env.POSTGRES_PASSWORD,
+      entities: [join(__dirname, '**', '*.entity.{ts,js}')],
       database: process.env.POSTGRES_DB,
       autoLoadEntities: true,
       synchronize: true,
-      // extra: { ssl: { rejectUnauthorized: true } },
     }),
+    UserModule,
     AuthModule,
     GoogleRecaptchaModule.forRoot({
       secretKey: process.env.GOOGLE_RECAPTCHA_SECRET_KEY,
