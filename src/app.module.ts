@@ -5,10 +5,7 @@ import {
   GoogleRecaptchaModule,
   GoogleRecaptchaNetwork,
 } from '@nestlab/google-recaptcha';
-<<<<<<< HEAD
-=======
 import { IncomingMessage } from 'http';
->>>>>>> origin/master
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
