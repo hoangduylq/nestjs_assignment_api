@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsString } from 'class-validator';
 
-export class UserLoginDto {
+export class UserLoginReCaptChaDto {
   @ApiProperty()
   @IsString()
   username: string;
@@ -9,4 +9,8 @@ export class UserLoginDto {
   @ApiProperty()
   @IsString()
   password: string;
+
+  @ApiProperty()
+  @IsString()
+  recaptchaToken?: string;
 }

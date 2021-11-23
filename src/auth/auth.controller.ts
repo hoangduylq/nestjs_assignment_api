@@ -15,6 +15,7 @@ import {
 import { GoogleRecaptchaValidationResult } from '@nestlab/google-recaptcha/interfaces/google-recaptcha-validation-result';
 import { UserService } from 'src/user/user.service';
 import { AuthService } from './auth.service';
+import { UserLoginReCaptChaDto } from './dto/user-login-recaptcha.dto';
 import { UserLoginDto } from './dto/user-login.dto';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { LocalAuthGuard } from './guards/local-auth.guard';
@@ -44,7 +45,7 @@ export class AuthController {
   async loginRecaptcha(
     @RecaptchaResult() recaptchaResult: GoogleRecaptchaValidationResult,
     @Request() req,
-    @Body() model: UserLoginDto,
+    @Body() model: UserLoginReCaptChaDto,
   ) {
     console.log(
       `Action: ${recaptchaResult.action} Score: ${recaptchaResult.score}`,
