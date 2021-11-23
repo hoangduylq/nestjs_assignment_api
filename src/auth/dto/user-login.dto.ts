@@ -9,4 +9,8 @@ export class UserLoginDto {
   @ApiProperty()
   @IsString()
   password: string;
+
+  @ApiProperty()
+  @IsString()
+  recaptchaToken?: string;
 }

@@ -5,6 +5,10 @@ import {
   GoogleRecaptchaModule,
   GoogleRecaptchaNetwork,
 } from '@nestlab/google-recaptcha';
+<<<<<<< HEAD
+=======
+import { IncomingMessage } from 'http';
+>>>>>>> origin/master
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
@@ -32,6 +36,15 @@ import { UserModule } from './user/user.module';
       // extra: { ssl: { rejectUnauthorized: true } },
     }),
     AuthModule,
+    GoogleRecaptchaModule.forRoot({
+      secretKey: process.env.GOOGLE_RECAPTCHA_SECRET_KEY,
+      response: (req: IncomingMessage) =>
+        (req.headers.recaptcha || '').toString(),
+      // skipIf: process.env.NODE_ENV !== 'production',
+      network: GoogleRecaptchaNetwork.Recaptcha,
+      actions: ['SignUp', 'SignIn'],
+      score: 0.8,
+    }),
   ],
   controllers: [AppController],
   providers: [AppService],
