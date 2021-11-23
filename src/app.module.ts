@@ -73,6 +73,7 @@ import { UserModule } from './user/user.module';
           (req.headers.recaptcha || '').toString(),
         // skipIf: process.env.NODE_ENV !== 'production',
         network: GoogleRecaptchaNetwork.Recaptcha,
+        actions: ['SignUp', 'SignIn'],
       }),
     }),
   ],
